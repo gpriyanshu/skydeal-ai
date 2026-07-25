@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  skydeal-ai:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: skydeal-ai-service
+    restart: unless-stopped
+    volumes:
+      - skydeal-data:/app/data
+    environment:
+      - ENV=production
+      - LOG_LEVEL=INFO
+      - DB_PATH=/app/data/skydeal.db
+      - SCAN_INTERVAL_HOURS=1
+      - FLIGHT_PROVIDER=mock
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_DEFAULT_CHAT_ID=${TELEGRAM_DEFAULT_CHAT_ID}
+      - TELEGRAM_COOLDOWN_SECONDS=3600
+      - SMTP_HOST=smtp.gmail.com
+      - SMTP_PORT=587
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_FROM_EMAIL=${SMTP_FROM_EMAIL}
+
+volumes:
+  skydeal-data:
+    driver: local
